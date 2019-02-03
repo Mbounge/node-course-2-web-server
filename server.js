@@ -7,10 +7,6 @@ var app = express(); // in order to make the app all we have to do is call the m
 hbs.registerPartials(__dirname + '/views/partials')
 app.set('view engine', 'hbs');
 
-// going to use middleware, lets you configure how your express app works, if it doesnt know hoe to do something you want 
-// we use express to read a static dir
-// app.use is how you register middleware and it takes a function
-app.use(express.static(__dirname + '/public')); // takes absolute path to the folder you want to serve up
 
 //  use next to tell express when were done, when dealing asyncronous functions
 // if you dont use next() your handlers will never fire
@@ -28,9 +24,14 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use((req, res, next) => {
-    res.render('maintenance.hbs')
-}); // will stop everything below it from rendering
+//app.use((req, res, next) => {
+//    res.render('maintenance.hbs')
+//}); // will stop everything below it from rendering
+
+// going to use middleware, lets you configure how your express app works, if it doesnt know hoe to do something you want 
+// we use express to read a static dir
+// app.use is how you register middleware and it takes a function
+app.use(express.static(__dirname + '/public')); // takes absolute path to the folder you want to serve up
 
 // we can start to set up our http route handlers
 
