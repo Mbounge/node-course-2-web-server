@@ -2,6 +2,8 @@ const express = require('express');
 const hbs = require('hbs');
 const fs = require('fs');
 
+const port = process.env.PORT || 3000; // allows app to run with heroku or 3000
+
 var app = express(); // in order to make the app all we have to do is call the method express
 
 hbs.registerPartials(__dirname + '/views/partials')
@@ -28,16 +30,16 @@ app.use((req, res, next) => {
 //    res.render('maintenance.hbs')
 //}); // will stop everything below it from rendering
 
-// going to use middleware, lets you configure how your express app works, if it doesnt know hoe to do something you want 
+// going to use middleware, lets you configure how your express app works, if it doesnt know how to do something you want 
 // we use express to read a static dir
 // app.use is how you register middleware and it takes a function
 app.use(express.static(__dirname + '/public')); // takes absolute path to the folder you want to serve up
 
 // we can start to set up our http route handlers
 
-// frist arg is root of app or url, second arg is for the function to run, the function that tells express what to send back to the person who sent the request
+// first arg is root of app or url, second arg is for the function to run, the function that tells express what to send back to the person who sent the request
 
-hbs.registerHelper('getCurrentYear', () => {
+hbs.registerHelper('getCurrentYear', () => { // found in partials
   return new Date().getFullYear();                 
 });
 
@@ -45,7 +47,7 @@ hbs.registerHelper('screamIt', (text) => {
     return text.toUpperCase();
 });
 
-// Handler registratioin 
+// Handler registration
 //res.send('<h1>Hello Express!<h1>') // response for http request
 // req stores info about all info for request coming in, headers, body etc, res is methods called the handler
 app.get('/', (req, res) => {  
@@ -67,6 +69,6 @@ app.get('/bad', (req, res) => {
     });
 });
 
-app.listen(3000, () => {
-    console.log('Server is up on Port 3000');
+app.listen(port, () => {
+    console.log(`Server is up on Port ${port}`); // which will change over time because of heroku
 }); // its going to bind our app to a port on our machine
